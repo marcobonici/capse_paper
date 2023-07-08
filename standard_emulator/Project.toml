@@ -1,0 +1,12 @@
+[deps]
+ACTPolLite = "7a251ca9-80fd-43df-9401-7a4ae1720da1"
+AbstractEmulator = "0dc76ace-04b2-4bd9-b691-6d8501953659"
+Capse = "994f66c3-d2c7-4ba6-88fb-4a10f50800ba"
+MicroCanonicalHMC = "234d2aa0-2291-45f7-9047-6fa6f316b0a8"
+NPZ = "15e1cf62-19b3-5cfa-8e77-841668bca605"
+Optim = "429524aa-4258-5aef-a3af-852621145aeb"
+Pathfinder = "b1d3bc72-d0e7-4279-b92f-7fa5d6d2d454"
+PlanckLite = "688fd668-1337-4257-8459-6da9299ff286"
+StatsPlots = "f3b207a7-027a-5e70-b257-86293d7955fd"
+Transducers = "28d57a85-8fef-5791-bfe6-a80928e7c999"
+Turing = "fce5fe82-541a-59a6-adf8-730c64b5f9a0"
