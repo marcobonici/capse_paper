@@ -2,7 +2,7 @@
 
 julia_version = "1.9.2"
 manifest_format = "2.0"
-project_hash = "3899d875480f179f2f2d2a5e793e8441d40a7a42"
+project_hash = "d5d05b64d74802367d3e9b81c8e58061832c23db"
 
 [[deps.ADTypes]]
 git-tree-sha1 = "e58c18d2312749847a74f5be80bb0fa53da102bd"
@@ -1113,6 +1113,14 @@ version = "0.7.6"
 deps = ["Artifacts", "Dates", "Downloads", "FileWatching", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
 uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 version = "1.9.2"
+
+[[deps.PlanckLite]]
+deps = ["Artifacts", "LinearAlgebra", "NPZ"]
+git-tree-sha1 = "6683a3c65d42e0f9bf653cf455b4fb184b302d11"
+repo-rev = "main"
+repo-url = "https://github.com/JuliaCosmologicalLikelihoods/PlanckLite.jl"
+uuid = "688fd668-1337-4257-8459-6da9299ff286"
+version = "0.1.0"
 
 [[deps.Polyester]]
 deps = ["ArrayInterface", "BitTwiddlingConvenienceFunctions", "CPUSummary", "IfElse", "ManualMemory", "PolyesterWeave", "Requires", "Static", "StaticArrayInterface", "StrideArraysCore", "ThreadingUtilities"]
