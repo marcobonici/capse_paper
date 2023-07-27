@@ -1,4 +1,4 @@
-# capse_paper
+# Capse: efficient and auto-differentiable CMB power spectra emulator
 
 [![arXiv](https://img.shields.io/badge/arXiv-1234.56789-b31b1b.svg)](https://arxiv.org/abs/2307.14339)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8187935.svg)](https://doi.org/10.5281/zenodo.8187935)
@@ -20,6 +20,6 @@ In case, contact any of us!
 
 ## Authors
 
-Marco Bonici, PostDoctoral Researcher at INAF-IASF Milano,
-Federico Bianchini, PostDoctoral researcher at Stanford
-Jaime Ruiz-Zapatero, PhD Student at Oxford
+- Marco Bonici, PostDoctoral Researcher at INAF-IASF Milano,
+- Federico Bianchini, PostDoctoral researcher at Stanford
+- Jaime Ruiz-Zapatero, PhD Student at Oxford
