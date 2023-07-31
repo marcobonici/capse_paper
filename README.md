@@ -1,6 +1,6 @@
 # Capse: efficient and auto-differentiable CMB power spectra emulator
 
-[![arXiv](https://img.shields.io/badge/arXiv-1234.56789-b31b1b.svg)](https://arxiv.org/abs/2307.14339)
+[![arXiv](https://img.shields.io/badge/arXiv-2307.14339-b31b1b.svg)](https://arxiv.org/abs/2307.14339)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8187935.svg)](https://doi.org/10.5281/zenodo.8187935)
 
 Repository containing the material for running the Capse.jl emulator and reproduce all the results of the paper.
