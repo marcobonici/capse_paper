@@ -1,0 +1,27 @@
+{
+    "n_input_features": 6,
+    "layers": {
+        "layer_4": {
+            "n_neurons": 64,
+            "activation_function": "tanh"
+        },
+        "layer_1": {
+            "n_neurons": 64,
+            "activation_function": "tanh"
+        },
+        "layer_5": {
+            "n_neurons": 64,
+            "activation_function": "tanh"
+        },
+        "layer_2": {
+            "n_neurons": 64,
+            "activation_function": "tanh"
+        },
+        "layer_3": {
+            "n_neurons": 64,
+            "activation_function": "tanh"
+        }
+    },
+    "n_output_features": 4999,
+    "n_hidden_layers": 5
+}
