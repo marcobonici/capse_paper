@@ -1,7 +1,7 @@
 [deps]
 ACTPolLite = "7a251ca9-80fd-43df-9401-7a4ae1720da1"
-AbstractEmulator = "0dc76ace-04b2-4bd9-b691-6d8501953659"
 Capse = "994f66c3-d2c7-4ba6-88fb-4a10f50800ba"
+JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
 MicroCanonicalHMC = "234d2aa0-2291-45f7-9047-6fa6f316b0a8"
 NPZ = "15e1cf62-19b3-5cfa-8e77-841668bca605"
