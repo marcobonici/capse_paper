@@ -1,6 +1,8 @@
 [deps]
 ACTPolLite = "7a251ca9-80fd-43df-9401-7a4ae1720da1"
+AbstractCosmologicalEmulators = "c83c1981-e5c4-4837-9eb8-c9b1572acfc6"
 Capse = "994f66c3-d2c7-4ba6-88fb-4a10f50800ba"
+EmulatorsTrainer = "ef107171-9c1d-4869-9860-ac18fb1a7e36"
 JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
 MicroCanonicalHMC = "234d2aa0-2291-45f7-9047-6fa6f316b0a8"
