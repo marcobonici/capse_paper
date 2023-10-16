@@ -2,7 +2,7 @@
 
 julia_version = "1.9.2"
 manifest_format = "2.0"
-project_hash = "644449c1f957b5b261e3e8a19022e2889288a1bf"
+project_hash = "81aadd2afbd8ca0278cbb0a2116ed5cb2ad43ec2"
 
 [[deps.ADTypes]]
 git-tree-sha1 = "e58c18d2312749847a74f5be80bb0fa53da102bd"
@@ -260,12 +260,12 @@ uuid = "49dc2e85-a5d0-5ad3-a950-438e2897f1b9"
 version = "0.5.1"
 
 [[deps.Capse]]
-deps = ["AbstractCosmologicalEmulators", "Adapt"]
-git-tree-sha1 = "526dca8942d7d8fbe2f902ff55529bd9ee825cfe"
+deps = ["AbstractCosmologicalEmulators", "Adapt", "JSON", "NPZ"]
+git-tree-sha1 = "bbfb7ac46b17e1ae6b25269cf9160816db23a78d"
 repo-rev = "main"
-repo-url = "https://github.com/CosmologicalEmulators/Capse.jl/"
+repo-url = "https://github.com/CosmologicalEmulators/Capse.jl"
 uuid = "994f66c3-d2c7-4ba6-88fb-4a10f50800ba"
-version = "0.2.2"
+version = "0.2.3"
 
 [[deps.ChainRules]]
 deps = ["Adapt", "ChainRulesCore", "Compat", "Distributed", "GPUArraysCore", "IrrationalConstants", "LinearAlgebra", "Random", "RealDot", "SparseArrays", "Statistics", "StructArrays"]
@@ -874,15 +874,13 @@ weakdeps = ["ChainRulesCore", "ForwardDiff", "SpecialFunctions"]
 
 [[deps.Lux]]
 deps = ["ADTypes", "Adapt", "ChainRulesCore", "ConcreteStructs", "Functors", "LinearAlgebra", "LuxCore", "LuxDeviceUtils", "LuxLib", "MacroTools", "Markdown", "Optimisers", "PackageExtensionCompat", "Random", "Reexport", "Setfield", "SparseArrays", "Statistics", "TruncatedStacktraces", "WeightInitializers"]
-git-tree-sha1 = "63d6d1114317b26d579baed45262273781400f3e"
+git-tree-sha1 = "42569bb572177026197dec4eca9834bc2fb94d7e"
 uuid = "b2108857-7c20-44ae-9111-449ecde12c47"
-version = "0.5.5"
+version = "0.5.6"
 
     [deps.Lux.extensions]
     LuxComponentArraysExt = "ComponentArrays"
     LuxComponentArraysReverseDiffExt = ["ComponentArrays", "ReverseDiff"]
-    LuxComponentArraysTrackerExt = ["ComponentArrays", "Tracker"]
-    LuxComponentArraysZygoteExt = ["ComponentArrays", "Zygote"]
     LuxFluxTransformExt = "Flux"
     LuxLuxAMDGPUExt = "LuxAMDGPU"
     LuxLuxCUDAExt = "LuxCUDA"
@@ -1151,9 +1149,9 @@ uuid = "ce719bf2-d5d0-4fb9-925d-10a81b42ad04"
 version = "0.9.1"
 
 [[deps.PackageExtensionCompat]]
-git-tree-sha1 = "f9b1e033c2b1205cf30fd119f4e50881316c1923"
+git-tree-sha1 = "fb28e33b8a95c4cee25ce296c817d89cc2e53518"
 uuid = "65ce6f38-6b18-4e1d-a461-8949797d7930"
-version = "1.0.1"
+version = "1.0.2"
 weakdeps = ["Requires", "TOML"]
 
 [[deps.Parameters]]
@@ -1407,6 +1405,14 @@ deps = ["IfElse", "Static", "VectorizationBase"]
 git-tree-sha1 = "4b8586aece42bee682399c4c4aee95446aa5cd19"
 uuid = "476501e8-09a2-5ece-8869-fb82de89a1fa"
 version = "0.6.39"
+
+[[deps.SPTLikelihoods]]
+deps = ["Artifacts", "NPZ"]
+git-tree-sha1 = "d0bc6d0d812780809d875aa62cc6ed2669873a11"
+repo-rev = "main"
+repo-url = "https://github.com/JuliaCosmologicalLikelihoods/SPTLikelihoods.jl"
+uuid = "843b1235-59c8-469d-b900-1f4e1bdb4f86"
+version = "0.2.0"
 
 [[deps.SciMLBase]]
 deps = ["ADTypes", "ArrayInterface", "CommonSolve", "ConstructionBase", "Distributed", "DocStringExtensions", "EnumX", "FunctionWrappersWrappers", "IteratorInterfaceExtensions", "LinearAlgebra", "Logging", "Markdown", "PrecompileTools", "Preferences", "RecipesBase", "RecursiveArrayTools", "Reexport", "RuntimeGeneratedFunctions", "SciMLOperators", "StaticArraysCore", "Statistics", "SymbolicIndexingInterface", "Tables", "TruncatedStacktraces"]
