@@ -22,3 +22,9 @@ function extract_single(x, i::Int, nchains)
     result = reshape(reduce(vcat,planck_mchmc_ln10As),(r*c))
     return result
 end
+
+function compute_ESS_s(chain)
+    CPU_s = MCMCChains.compute_duration(chain)
+    ESS = mean(MCMCChains.ess_rhat(chain)[[:ln10As, :ns, :h, :ωb,:ωc, :τ, :yₚ],:ess])
+    return ESS/CPU_s
+end
