@@ -12,6 +12,9 @@ using LinearAlgebra
 using Pathfinder
 using MicroCanonicalHMC
 using Transducers
+using PairPlots
+using CairoMakie
+using LaTeXStrings
 using StatsPlots
 include("utils.jl")
 end
@@ -98,56 +101,77 @@ spl = MCHMC(nadapts, 0.001; init_eps=0.05, L=sqrt(d), sigma=ones(d),
 chains_planck_mchmc_fd = sample(CMB_model_planck, externalsampler(spl, adtype=AutoForwardDiff()), MCMCDistributed(),  nsteps, nchains; init_params = init_params[1])
 chains_planck_mchmc_zy = sample(CMB_model_planck, externalsampler(spl, adtype=AutoZygote()), MCMCDistributed(),  nsteps, nchains; init_params = init_params[1])
 
-fig = pairplot(
-    PairPlots.Series(
-        chains_planck_nuts_fd,
-        label="NUTS",
-        color=:red,
-    ) => (
-        PairPlots.Contourf(
-            sigmas=[1,2],
-            color=(:red, 0.2),
-            bandwidth=3,
-            # bandwidth is the smoothing
-        ),
-        PairPlots.MarginDensity(
-            linewidth=3,
-            bandwidth=3,
-        ),
+plot_nuts_fd = PairPlots.Series(
+    chains_planck_nuts_fd,
+    label=L"\mathrm{NUTS}\quad\mathrm{ForwardDiff}",
+    color=:red,
+) => (
+    PairPlots.Contour(
+        sigmas=[1,2],
+        color=(:red, 1.0),
+        bandwidth=1,
+        linewidth=3,
+        linestyle=:dash
+        # bandwidth is the smoothing
     ),
+    PairPlots.MarginDensity(
+        linewidth=3,
+        bandwidth=1,
+    ),
+)
 
-    PairPlots.Series(
-        result_multi.draws_transformed,
-        label="Pathfinder",
-        color=:blue,
-    ) => (
-        PairPlots.Contourf(
-            sigmas=[1,2],
-            color=(:blue, 0.2),
-            bandwidth=3,
-            # bandwidth is the smoothing
-        ),
-        PairPlots.MarginDensity(
-            linewidth=3,
-            bandwidth=3,
-        ),
+plot_nuts_zy = PairPlots.Series(
+    chains_planck_nuts_zy,
+    label=L"\mathrm{NUTS}\quad\mathrm{Zygote}",
+    color=:orange,
+) => (
+    PairPlots.Contourf(
+        sigmas=[1,2],
+        color=(:orange, 0.2),
+        bandwidth=1,
+        # bandwidth is the smoothing
     ),
-    PairPlots.Series(
-        chains_planck_mchmc_fd,
-        label="MCHMC",
-        color=:green,
-    ) => (
-        PairPlots.Contourf(
-            sigmas=[1,2],
-            color=(:green, 0.2),
-            bandwidth=3,
-            # bandwidth is the smoothing
-        ),
-        PairPlots.MarginDensity(
-            linewidth=3,
-            bandwidth=3,
-        ),
+    PairPlots.MarginDensity(
+        linewidth=3,
+        bandwidth=1,
     ),
+)
+
+plot_mchmc_fd = PairPlots.Series(
+    chains_planck_mchmc_fd,
+    label=L"\mathrm{MCHMC}\quad\mathrm{ForwardDiff}",
+    color=:green,
+) => (
+    PairPlots.Contourf(
+        sigmas=[1,2],
+        color=(:green, 0.2),
+        bandwidth=3,
+        # bandwidth is the smoothing
+    ),
+    PairPlots.MarginDensity(
+        linewidth=3,
+        bandwidth=1,
+    ),
+)
+
+plot_mchmc_zy = PairPlots.Series(
+    chains_planck_mchmc_zy,
+    label=L"\mathrm{MCHMC}\quad\mathrm{Zygote}",
+    color=:grey,
+) => (
+    PairPlots.Contourf(
+        sigmas=[1,2],
+        color=(:grey, 0.2),
+        bandwidth=3,
+        # bandwidth is the smoothing
+    ),
+    PairPlots.MarginDensity(
+        linewidth=3,
+        bandwidth=1,
+    ),
+)
+
+fig = pairplot(plot_nuts_fd, plot_nuts_zy, plot_mchmc_fd, plot_mchmc_zy,
     #fullgrid=true,
     # Add LaTeX overrides for labels here!
     labels=Dict(
@@ -178,13 +202,13 @@ fig = pairplot(
             ticks=(
                 [0.3, 0.305, 0.31],
                 [L"3.0", L"3.05", L"3.1"]
-            )#, lims=(;low=0.955-0.965*0.01, high=0.975+0.965*0.01)
+            ), lims=(;low=0.2975, high=0.3125)
         ),
         ωb = (;
             ticks=(
                 [0.22, 0.225],
                 [L"0.022", L"0.0225"]
-            )#, lims=(;low=0.955-0.965*0.01, high=0.975+0.965*0.01)
+            ), lims=(;low=0.215, high=0.23)
         ),
         ωc = (;
             ticks=(
@@ -196,7 +220,7 @@ fig = pairplot(
             ticks=(
                 [0.04, 0.06, 0.08],
                 [L"0.04", L"0.06", L"0.08"]
-            )#, lims=(;low=0.117, high=0.125)
+            ), lims=(;low=0.02, high=0.1)
         ),
         yₚ = (;
             ticks=(
@@ -207,7 +231,30 @@ fig = pairplot(
 
     )
 )
+
 rowgap!(fig.layout, 0)
 colgap!(fig.layout, 0)
+for i in 1:28
+    ax  = fig.content[i]
+    ax.spinewidth = 2
+    ax.xtickwidth = 2
+    ax.ytickwidth = 2
+    ax.xlabelsize = 28
+    ax.ylabelsize = 28
+    ax.xticklabelsize = 18
+    ax.yticklabelsize = 16
+end
 
+
+
+
+leg = fig.content[29]
+leg.valign = :top
+leg.halign = :center
+leg.framevisible = false
+leg.labelsize = 18
+fig.layout[1,7] = leg
+fig
+CairoMakie.save("pippo.pdf", fig)
+CairoMakie.save("pippo.png", fig)
 fig
