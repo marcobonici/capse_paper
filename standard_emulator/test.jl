@@ -79,8 +79,8 @@ end
 
 CMB_model_planck = CMB_planck(D, iΓ);
 end
-nsteps = 4000
-nadapts = 500
+nsteps = 500
+nadapts = 250
 nchains = 12
 
 result_multi = multipathfinder(CMB_model_planck, 2000; nruns=12, executor=Transducers.PreferParallel())
@@ -94,7 +94,7 @@ chains_planck_nuts_zy = sample(CMB_model_planck, NUTS(nadapts, 0.75, adtype=Auto
 
 d = 7
 nadapts = 5_000
-nsteps = 60_000
+nsteps = 20_000
 spl = MCHMC(nadapts, 0.001; init_eps=0.05, L=sqrt(d), sigma=ones(d),
             adaptive=true, tune_L = false)
 
@@ -107,7 +107,7 @@ plot_nuts_fd = PairPlots.Series(
     color=:red,
 ) => (
     PairPlots.Contour(
-        sigmas=[1,2],
+        sigmas=[1,3],
         color=(:red, 1.0),
         bandwidth=1,
         linewidth=3,
@@ -126,7 +126,7 @@ plot_nuts_zy = PairPlots.Series(
     color=:orange,
 ) => (
     PairPlots.Contourf(
-        sigmas=[1,2],
+        sigmas=[1,3],
         color=(:orange, 0.2),
         bandwidth=1,
         # bandwidth is the smoothing
@@ -143,7 +143,7 @@ plot_mchmc_fd = PairPlots.Series(
     color=:green,
 ) => (
     PairPlots.Contourf(
-        sigmas=[1,2],
+        sigmas=[1,3],
         color=(:green, 0.2),
         bandwidth=3,
         # bandwidth is the smoothing
@@ -160,7 +160,7 @@ plot_mchmc_zy = PairPlots.Series(
     color=:grey,
 ) => (
     PairPlots.Contourf(
-        sigmas=[1,2],
+        sigmas=[1,3],
         color=(:grey, 0.2),
         bandwidth=3,
         # bandwidth is the smoothing
@@ -171,11 +171,16 @@ plot_mchmc_zy = PairPlots.Series(
     ),
 )
 
+chain_array = chains_planck_mchmc_fd.value.data
+mean_array = [mean(chain_array[:,i,:]) for i in 1:7]
+std_array = [std(chain_array[:,i,:]) for i in 1:7]
+sigma_plot = 3.5
+
 fig = pairplot(plot_nuts_fd, plot_nuts_zy, plot_mchmc_fd, plot_mchmc_zy,
     #fullgrid=true,
     # Add LaTeX overrides for labels here!
     labels=Dict(
-        :ln10As => L"\ln 10 A_s", # LaTeX
+        :ln10As => L"\log( 10^{10} A_s)", # LaTeX
         :ns => L"n_s", # LaTeX
         :h => L"h", # LaTeX
         :ωb => L"\omega_b", # LaTeX
@@ -187,46 +192,46 @@ fig = pairplot(plot_nuts_fd, plot_nuts_zy, plot_mchmc_fd, plot_mchmc_zy,
     axis=(;
         h = (;
             ticks=(
-                [0.65, 0.67, 0.69],
-                [L"0.65", L"0.67", L"0.69"]
-            ), lims=(;low=0.65-0.67*0.01, high=0.69+0.67*0.01)
+                [0.66, 0.67, 0.68, 0.69],
+                [L"0.66", L"0.67", L"0.68",  L"0.69"]
+            ), lims=(;low=mean_array[3]-sigma_plot*std_array[3], high=mean_array[3]+sigma_plot*std_array[3])
 
         ),
         ns = (;
             ticks=(
                 [0.955, 0.965, 0.975],
                 [L"0.955", L"0.965", L"0.975"]
-            ), lims=(;low=0.955-0.965*0.006, high=0.975+0.965*0.004)
+            ), lims=(;low=mean_array[2]-sigma_plot*std_array[2], high=mean_array[2]+sigma_plot*std_array[2])
         ),
         ln10As = (;
             ticks=(
                 [0.3, 0.305, 0.31],
                 [L"3.0", L"3.05", L"3.1"]
-            ), lims=(;low=0.2975, high=0.3125)
+            ), lims=(;low=mean_array[1]-sigma_plot*std_array[1], high=mean_array[1]+sigma_plot*std_array[1])
         ),
         ωb = (;
             ticks=(
                 [0.22, 0.225],
                 [L"0.022", L"0.0225"]
-            ), lims=(;low=0.215, high=0.23)
+            ), lims=(;low=mean_array[4]-sigma_plot*std_array[4], high=mean_array[4]+sigma_plot*std_array[4])
         ),
         ωc = (;
             ticks=(
                 [0.12, 0.124],
                 [L"0.12", L"0.124"]
-            ), lims=(;low=0.116, high=0.125)
+            ), lims=(;low=mean_array[5]-sigma_plot*std_array[5], high=mean_array[5]+sigma_plot*std_array[5])
         ),
         τ = (;
             ticks=(
                 [0.04, 0.06, 0.08],
                 [L"0.04", L"0.06", L"0.08"]
-            ), lims=(;low=0.02, high=0.1)
+            ), lims=(;low=mean_array[6]-sigma_plot*std_array[6], high=mean_array[6]+sigma_plot*std_array[6])
         ),
         yₚ = (;
             ticks=(
                 [0.995, 1.005],
                 [L"0.995", L"1.005"]
-            ), lims=(;low=0.99, high=1.01)
+            ), lims=(;low=mean_array[7]-sigma_plot*std_array[7], high=mean_array[7]+sigma_plot*std_array[7])
         )
 
     )
@@ -234,15 +239,21 @@ fig = pairplot(plot_nuts_fd, plot_nuts_zy, plot_mchmc_fd, plot_mchmc_zy,
 
 rowgap!(fig.layout, 0)
 colgap!(fig.layout, 0)
+
 for i in 1:28
     ax  = fig.content[i]
-    ax.spinewidth = 2
-    ax.xtickwidth = 2
-    ax.ytickwidth = 2
+    ax.spinewidth = 2.5
+    ax.xtickwidth = 2.5
+    ax.ytickwidth = 2.5
     ax.xlabelsize = 28
     ax.ylabelsize = 28
     ax.xticklabelsize = 18
     ax.yticklabelsize = 16
+    ax.xtickalign = 1.0
+    ax.ytickalign = 1.0
+    ax.xticksvisible = true
+    ax.xticksize = 10
+    ax.yticksize = 10
 end
 
 
@@ -250,9 +261,9 @@ end
 
 leg = fig.content[29]
 leg.valign = :top
-leg.halign = :center
+leg.halign = :right
 leg.framevisible = false
-leg.labelsize = 18
+leg.labelsize = 24
 fig.layout[1,7] = leg
 fig
 CairoMakie.save("pippo.pdf", fig)
