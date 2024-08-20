@@ -79,8 +79,8 @@ end
 
 CMB_model_planck = CMB_planck(D, iΓ);
 end
-nsteps = 500
-nadapts = 250
+nsteps = 4000
+nadapts = 500
 nchains = 12
 
 result_multi = multipathfinder(CMB_model_planck, 2000; nruns=12, executor=Transducers.PreferParallel())
@@ -94,7 +94,7 @@ chains_planck_nuts_zy = sample(CMB_model_planck, NUTS(nadapts, 0.75, adtype=Auto
 
 d = 7
 nadapts = 5_000
-nsteps = 20_000
+nsteps = 60_000
 spl = MCHMC(nadapts, 0.001; init_eps=0.05, L=sqrt(d), sigma=ones(d),
             adaptive=true, tune_L = false)
 
@@ -252,6 +252,7 @@ for i in 1:28
     ax.xtickalign = 1.0
     ax.ytickalign = 1.0
     ax.xticksvisible = true
+    ax.yticksvisible = true
     ax.xticksize = 10
     ax.yticksize = 10
 end
