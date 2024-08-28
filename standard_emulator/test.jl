@@ -103,75 +103,75 @@ chains_planck_mchmc_zy = sample(CMB_model_planck, externalsampler(spl, adtype=Au
 
 plot_nuts_fd = PairPlots.Series(
     chains_planck_nuts_fd,
-    label=L"\mathrm{NUTS}\quad\mathrm{ForwardDiff}",
-    color=:red,
+    #label=L"\mathrm{NUTS}\quad\mathrm{ForwardDiff}",
+    color=:red,  bottomleft=false, topright=true
 ) => (
     PairPlots.Contour(
         sigmas=[1,3],
         color=(:red, 1.0),
-        bandwidth=1,
+        bandwidth=2,
         linewidth=3,
         linestyle=:dash
         # bandwidth is the smoothing
     ),
     PairPlots.MarginDensity(
         linewidth=3,
-        bandwidth=1,
+        bandwidth=2,
     ),
 )
 
 plot_nuts_zy = PairPlots.Series(
     chains_planck_nuts_zy,
-    label=L"\mathrm{NUTS}\quad\mathrm{Zygote}",
+    #label=L"\mathrm{NUTS}\quad\mathrm{Zygote}",
     color=:orange,
 ) => (
     PairPlots.Contourf(
         sigmas=[1,3],
         color=(:orange, 0.2),
-        bandwidth=1,
+        bandwidth=2,
         # bandwidth is the smoothing
     ),
     PairPlots.MarginDensity(
         linewidth=3,
-        bandwidth=1,
+        bandwidth=2,
     ),
 )
 
 plot_mchmc_fd = PairPlots.Series(
     chains_planck_mchmc_fd,
-    label=L"\mathrm{MCHMC}\quad\mathrm{ForwardDiff}",
+    #label=L"\mathrm{MCHMC}\quad\mathrm{ForwardDiff}",
     color=:green,
 ) => (
     PairPlots.Contourf(
         sigmas=[1,3],
         color=(:green, 0.2),
-        bandwidth=3,
+        bandwidth=2,
         # bandwidth is the smoothing
     ),
     PairPlots.MarginDensity(
         linewidth=3,
-        bandwidth=1,
+        bandwidth=2,
     ),
 )
 
 plot_mchmc_zy = PairPlots.Series(
     chains_planck_mchmc_zy,
-    label=L"\mathrm{MCHMC}\quad\mathrm{Zygote}",
+    #label=L"\mathrm{MCHMC}\quad\mathrm{Zygote}",
     color=:grey,
 ) => (
     PairPlots.Contourf(
         sigmas=[1,3],
         color=(:grey, 0.2),
-        bandwidth=3,
+        bandwidth=2,
         # bandwidth is the smoothing
     ),
     PairPlots.MarginDensity(
         linewidth=3,
-        bandwidth=1,
+        bandwidth=2,
     ),
 )
 
-chain_array = chains_planck_mchmc_fd.value.data
+chain_array = chains_planck_mchmc_zy.value.data
 mean_array = [mean(chain_array[:,i,:]) for i in 1:7]
 std_array = [std(chain_array[:,i,:]) for i in 1:7]
 sigma_plot = 3.5
@@ -180,14 +180,13 @@ fig = pairplot(plot_nuts_fd, plot_nuts_zy, plot_mchmc_fd, plot_mchmc_zy,
     #fullgrid=true,
     # Add LaTeX overrides for labels here!
     labels=Dict(
-        :ln10As => L"\log( 10^{10} A_s)", # LaTeX
-        :ns => L"n_s", # LaTeX
+        :ln10As => L"\log( 10^{10} A_\mathrm{s})", # LaTeX
+        :ns => L"n_\mathrm{s}", # LaTeX
         :h => L"h", # LaTeX
-        :ωb => L"\omega_b", # LaTeX
-        :ωc => L"\omega_c", # LaTeX
+        :ωb => L"\omega_\mathrm{b}", # LaTeX
+        :ωc => L"\omega_\mathrm{c}", # LaTeX
         :τ => L"\tau", # LaTeX
-        :yₚ => L"A_\mathrm{Planck}", # LaTeX
-        :b => Makie.rich("long label α", color=:green)
+        :yₚ => L"A_\mathrm{Planck}", # LaTeX)
     ),
     axis=(;
         h = (;
@@ -229,8 +228,8 @@ fig = pairplot(plot_nuts_fd, plot_nuts_zy, plot_mchmc_fd, plot_mchmc_zy,
         ),
         yₚ = (;
             ticks=(
-                [0.995, 1.005],
-                [L"0.995", L"1.005"]
+                [0.995, 1., 1.005],
+                [L"0.995", L"1.0", L"1.005"]
             ), lims=(;low=mean_array[7]-sigma_plot*std_array[7], high=mean_array[7]+sigma_plot*std_array[7])
         )
 
@@ -240,7 +239,8 @@ fig = pairplot(plot_nuts_fd, plot_nuts_zy, plot_mchmc_fd, plot_mchmc_zy,
 rowgap!(fig.layout, 0)
 colgap!(fig.layout, 0)
 
-for i in 1:28
+for i in 1:49
+    ax_top =
     ax  = fig.content[i]
     ax.spinewidth = 2.5
     ax.xtickwidth = 2.5
@@ -257,16 +257,19 @@ for i in 1:28
     ax.yticksize = 10
 end
 
+elem_1 = [PolyElement(color = :transparent, strokecolor = :red, strokewidth = 3, linestyle=:dash)]
+
+elem_2 = [PolyElement(color = :orange, strokecolor = :transparent, strokewidth = 1)]
+
+elem_3 = [PolyElement(color = :green, strokecolor = :transparent, strokewidth = 1)]
+
+elem_4 = [PolyElement(color = :grey, strokecolor = :transparent, strokewidth = 1)]
 
 
-
-leg = fig.content[29]
-leg.valign = :top
-leg.halign = :right
-leg.framevisible = false
-leg.labelsize = 24
-fig.layout[1,7] = leg
-fig
-CairoMakie.save("pippo.pdf", fig)
-CairoMakie.save("pippo.png", fig)
+Legend(fig[0, 1:7],
+[elem_1, elem_2, elem_3, elem_4],
+[L"\mathrm{NUTS}\,\,\mathrm{ForwardDiff}", L"\mathrm{NUTS}\,\,\mathrm{Zygote}", L"\mathrm{MCHMC}\,\,\mathrm{ForwardDiff}", L"\mathrm{MCHMC}\,\,\mathrm{Zygote}"],
+patchsize = (35, 35), colgap = 30, orientation = :horizontal, labelsize = 25, framevisible = false)
+CairoMakie.save("contour.pdf", fig)
+CairoMakie.save("contour.png", fig)
 fig

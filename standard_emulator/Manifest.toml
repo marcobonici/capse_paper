@@ -2246,9 +2246,9 @@ version = "0.5.12"
 
 [[deps.PairPlots]]
 deps = ["Contour", "Distributions", "KernelDensity", "LinearAlgebra", "Makie", "Measures", "Missings", "NamedTupleTools", "OrderedCollections", "PolygonOps", "PrecompileTools", "Printf", "Requires", "StaticArrays", "Statistics", "StatsBase", "TableOperations", "Tables"]
-git-tree-sha1 = "fbcf29df28b4da5c88bfc696c8e21ee671fcd3a6"
+git-tree-sha1 = "2ad5582a1ad71694e920e99469971eebf5abec59"
 uuid = "43a3c2be-4208-490b-832a-a21dcd55d7da"
-version = "2.8.0"
+version = "2.9.0"
 
     [deps.PairPlots.extensions]
     MCMCChainsExt = "MCMCChains"
